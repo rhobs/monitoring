@@ -7,6 +7,7 @@ import (
 	"github.com/ghodss/yaml"
 	"github.com/google/go-jsonnet"
 	"github.com/magefile/mage/mg"
+	"github.com/magefile/mage/sh"
 )
 
 const (
@@ -22,6 +23,8 @@ type (
 
 // Alertmanager Generates the Alertmanager dashboard
 func (d Dashboards) Alertmanager() error {
+	err := sh.Run("jb", "update", "github.com/prometheus/alertmanager/doc/alertmanager-mixin@main", `--jsonnetpkg-home=vendor_jsonnet`)
+
 	const (
 		filename = "alertmanager.jsonnet"
 		fileOut  = "alertmanager.yaml"
