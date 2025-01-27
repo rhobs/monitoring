@@ -5,14 +5,10 @@ import (
 	"os"
 
 	"github.com/ghodss/yaml"
-	"github.com/google/go-jsonnet"
 	"github.com/magefile/mage/mg"
-	"github.com/magefile/mage/sh"
 )
 
 const (
-	vendorPath = "./vendor_jsonnet"
-
 	dashboardSource = "./dashboards/"
 	dashboardPath   = "./resources/dashboards/"
 )
@@ -23,8 +19,6 @@ type (
 
 // Alertmanager Generates the Alertmanager dashboard
 func (d Dashboards) Alertmanager() error {
-	err := sh.Run("jb", "update", "github.com/prometheus/alertmanager/doc/alertmanager-mixin@main", `--jsonnetpkg-home=vendor_jsonnet`)
-
 	const (
 		filename = "alertmanager.jsonnet"
 		fileOut  = "alertmanager.yaml"
@@ -41,16 +35,6 @@ func (d Dashboards) Alertmanager() error {
 		return fmt.Errorf("failed to write dashboard file: %w", err)
 	}
 	return nil
-}
-
-func getVM() *jsonnet.VM {
-	vm := jsonnet.MakeVM()
-	vm.Importer(&jsonnet.FileImporter{
-		JPaths: []string{
-			vendorPath,
-		},
-	})
-	return vm
 }
 
 func getDashboardFile(filename string) string {
