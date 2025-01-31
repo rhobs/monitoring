@@ -21,7 +21,7 @@ type (
 func (d Dashboards) Alertmanager() error {
 	const (
 		filename = "alertmanager.jsonnet"
-		fileOut  = "alertmanager.yaml"
+		fileOut  = "alertmanager.configmap.yaml"
 	)
 
 	vm := getVM()

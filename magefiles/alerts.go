@@ -1,8 +1,8 @@
 package main
 
 import (
-	"os"
 	"fmt"
+	"os"
 
 	"github.com/ghodss/yaml"
 	"github.com/google/go-jsonnet"
