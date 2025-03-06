@@ -6,6 +6,6 @@ alertmanager_mixin {
     alertmanagerNameLabels: 'pod',
     alertmanagerCriticalIntegrationsRegEx: 'slack|pagerduty|email|webhook',
     alertmanagerSelector: selector,
-    dashboardID: 'alertmanager-overview',
+    dashboardID: 'rhobs-alertmanager-overview',
   },
 }
