@@ -3,6 +3,13 @@ local alertmanagerConfig = (import 'alertmanager.libsonnet');
 
 local mixin = alertmanager {
   _config+:: alertmanagerConfig._config,
+
+  // Override the dashboard to set a custom UID
+  grafanaDashboards+:: {
+    'alertmanager-overview.json'+: {
+      uid: 'rhobs-alertmanager-overview',  // Set your custom UID here
+    },
+  },
 };
 
 {
@@ -12,7 +19,7 @@ local mixin = alertmanager {
     name: 'grafana-dashboard-observatorium-alertmanager-overview',
     labels+: { grafana_dashboard: 'true' },
     annotations+: {
-      'grafana-folder': '/grafana-dashboard-definitions/Observatorium',
+      'grafana-folder': '/grafana-dashboard-definitions/RHOBS',
     },
   },
   data: {

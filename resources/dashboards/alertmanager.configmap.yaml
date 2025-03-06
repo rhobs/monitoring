@@ -350,12 +350,12 @@ data:
       },
       "timezone": "utc",
       "title": "Alertmanager / Overview",
-      "uid": "alertmanager-overview"
+      "uid": "rhobs-alertmanager-overview"
     }
 kind: ConfigMap
 metadata:
   annotations:
-    grafana-folder: /grafana-dashboard-definitions/Observatorium
+    grafana-folder: /grafana-dashboard-definitions/RHOBS
   labels:
     grafana_dashboard: "true"
   name: grafana-dashboard-observatorium-alertmanager-overview
