@@ -358,4 +358,4 @@ metadata:
     grafana-folder: /grafana-dashboard-definitions/RHOBS
   labels:
     grafana_dashboard: "true"
-  name: grafana-dashboard-observatorium-alertmanager-overview
+  name: grafana-dashboard-rhobs-alertmanager-overview
