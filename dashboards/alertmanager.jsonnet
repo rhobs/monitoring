@@ -16,7 +16,7 @@ local mixin = alertmanager {
   apiVersion: 'v1',
   kind: 'ConfigMap',
   metadata: {
-    name: 'grafana-dashboard-observatorium-alertmanager-overview',
+    name: 'grafana-dashboard-rhobs-alertmanager-overview',
     labels+: { grafana_dashboard: 'true' },
     annotations+: {
       'grafana-folder': '/grafana-dashboard-definitions/RHOBS',
