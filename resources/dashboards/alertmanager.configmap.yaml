@@ -281,6 +281,7 @@ data:
             "label": "Data Source",
             "name": "datasource",
             "query": "prometheus",
+            "regex": "telemeter-prod-01-prometheus|app-sre-stage-01-prometheus",
             "type": "datasource"
           },
           {
