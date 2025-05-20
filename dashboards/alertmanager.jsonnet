@@ -8,6 +8,7 @@ local mixin = alertmanager {
   grafanaDashboards+:: {
     'alertmanager-overview.json'+: {
       uid: 'rhobs-alertmanager-overview',
+
       // Add the templating override
       templating+: {
         list: std.map(
@@ -15,9 +16,13 @@ local mixin = alertmanager {
             if template.name == 'datasource' then
               // Add the regex filter to limit data sources
               template { regex: 'telemeter-prod-01-prometheus|app-sre-stage-01-prometheus' }
+            else if template.name == 'namespace' then
+              // Add the regex filter to limit namespaces
+              template { regex: 'rhobs-stage|rhobs-production' }
             else
               template,
           super.list
+
         ),
       },
 

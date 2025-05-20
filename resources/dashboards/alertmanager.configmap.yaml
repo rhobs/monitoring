@@ -299,6 +299,7 @@ data:
             "name": "namespace",
             "query": "label_values(alertmanager_alerts, namespace)",
             "refresh": 2,
+            "regex": "rhobs-stage|rhobs-production",
             "sort": 1,
             "type": "query"
           },
