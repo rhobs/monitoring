@@ -7,7 +7,20 @@ local mixin = alertmanager {
   // Override the dashboard to set a custom UID
   grafanaDashboards+:: {
     'alertmanager-overview.json'+: {
-      uid: 'rhobs-alertmanager-overview',  // Set your custom UID here
+      uid: 'rhobs-alertmanager-overview',
+      // Add the templating override
+      templating+: {
+        list: std.map(
+          function(template)
+            if template.name == 'datasource' then
+              // Add the regex filter to limit data sources
+              template { regex: 'telemeter-prod-01-prometheus|app-sre-stage-01-prometheus' }
+            else
+              template,
+          super.list
+        ),
+      },
+
     },
   },
 };
