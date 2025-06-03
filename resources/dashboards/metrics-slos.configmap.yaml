@@ -28,7 +28,7 @@ data:
       "editable": true,
       "fiscalYearStartMonth": 0,
       "graphTooltip": 0,
-      "id": 1008630,
+      "id": 1009437,
       "links": [],
       "panels": [
         {
@@ -67,369 +67,7 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 15
-          },
-          "id": 35,
-          "panels": [],
-          "targets": [
-            {
-              "datasource": "${datasource}",
-              "refId": "A"
-            }
-          ],
-          "title": "API > Metrics Read > Ad Hoc > Availability",
-          "type": "row"
-        },
-        {
-          "datasource": "${datasource}",
-          "gridPos": {
-            "h": 5,
-            "w": 5,
-            "x": 0,
-            "y": 16
-          },
-          "id": 36,
-          "options": {
-            "code": {
-              "language": "plaintext",
-              "showLineNumbers": false,
-              "showMiniMap": false
-            },
-            "content": "<center style=\"font-size: 25px;\">99.5% of valid /query requests return successfully</center>",
-            "mode": "markdown"
-          },
-          "pluginVersion": "10.4.1",
-          "targets": [
-            {
-              "datasource": "${datasource}",
-              "refId": "A"
-            }
-          ],
-          "title": "SLO",
-          "type": "text"
-        },
-        {
-          "datasource": "${datasource}",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "decimals": 2,
-              "mappings": [],
-              "max": 1,
-              "min": 0,
-              "thresholds": {
-                "mode": "percentage",
-                "steps": [
-                  {
-                    "color": "red",
-                    "value": null
-                  },
-                  {
-                    "color": "orange",
-                    "value": 95
-                  },
-                  {
-                    "color": "green",
-                    "value": 97.5
-                  }
-                ]
-              },
-              "unit": "percentunit"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 5,
-            "w": 5,
-            "x": 5,
-            "y": 16
-          },
-          "id": 8,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "showPercentChange": false,
-            "text": {},
-            "textMode": "auto",
-            "wideLayout": true
-          },
-          "pluginVersion": "10.4.1",
-          "targets": [
-            {
-              "datasource": "${datasource}",
-              "exemplar": true,
-              "expr": "1-\n(sum(rate(http_requests_total{job=\"observatorium-api\",group=\"metricsv1\",handler=\"query\",code=~\"5.+\",namespace=\"$namespace\",tenant=\"$tenant\"}[28d])) or vector(0))\n/\nsum(rate(http_requests_total{job=\"observatorium-api\",group=\"metricsv1\",handler=\"query\",code!~\"4.+\",namespace=\"$namespace\",tenant=\"$tenant\"}[28d]))\n",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "",
-              "range": false,
-              "refId": "A"
-            }
-          ],
-          "title": "Availability (28d)",
-          "type": "stat"
-        },
-        {
-          "datasource": "${datasource}",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "decimals": 2,
-              "mappings": [],
-              "max": 1,
-              "min": 0,
-              "thresholds": {
-                "mode": "percentage",
-                "steps": [
-                  {
-                    "color": "red",
-                    "value": null
-                  },
-                  {
-                    "color": "orange",
-                    "value": 33
-                  },
-                  {
-                    "color": "green",
-                    "value": 66
-                  }
-                ]
-              },
-              "unit": "percentunit"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 5,
-            "w": 5,
-            "x": 10,
-            "y": 16
-          },
-          "id": 9,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "showPercentChange": false,
-            "text": {},
-            "textMode": "auto",
-            "wideLayout": true
-          },
-          "pluginVersion": "10.4.1",
-          "targets": [
-            {
-              "datasource": "${datasource}",
-              "exemplar": true,
-              "expr": "clamp_min(\n( 1 -\n    (\n        (sum(rate(http_requests_total{job=\"observatorium-api\",group=\"metricsv1\",handler=\"query\",code=~\"5.+\",namespace=\"$namespace\",tenant=\"$tenant\"}[28d])) or vector(0))\n        /\n        sum(rate(http_requests_total{job=\"observatorium-api\",group=\"metricsv1\",handler=\"query\",code!~\"4.+\",namespace=\"$namespace\",tenant=\"$tenant\"}[28d]))\n    ) - 0.995\n)\n/\n(1 - 0.995), 0)\n",
-              "hide": false,
-              "interval": "",
-              "legendFormat": "",
-              "refId": "B"
-            }
-          ],
-          "title": "Error Budget (28d)",
-          "type": "stat"
-        },
-        {
-          "datasource": "${datasource}",
-          "gridPos": {
-            "h": 5,
-            "w": 5,
-            "x": 0,
-            "y": 21
-          },
-          "id": 37,
-          "options": {
-            "code": {
-              "language": "plaintext",
-              "showLineNumbers": false,
-              "showMiniMap": false
-            },
-            "content": "<center style=\"font-size: 25px;\">99.5% of valid /query_range requests return successfully</center>",
-            "mode": "markdown"
-          },
-          "pluginVersion": "10.4.1",
-          "targets": [
-            {
-              "datasource": "${datasource}",
-              "refId": "A"
-            }
-          ],
-          "title": "SLO",
-          "type": "text"
-        },
-        {
-          "datasource": "${datasource}",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "decimals": 2,
-              "mappings": [],
-              "max": 1,
-              "min": 0,
-              "thresholds": {
-                "mode": "percentage",
-                "steps": [
-                  {
-                    "color": "red",
-                    "value": null
-                  },
-                  {
-                    "color": "orange",
-                    "value": 95
-                  },
-                  {
-                    "color": "green",
-                    "value": 97.5
-                  }
-                ]
-              },
-              "unit": "percentunit"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 5,
-            "w": 5,
-            "x": 5,
-            "y": 21
-          },
-          "id": 10,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "showPercentChange": false,
-            "text": {},
-            "textMode": "auto",
-            "wideLayout": true
-          },
-          "pluginVersion": "10.4.1",
-          "targets": [
-            {
-              "datasource": "${datasource}",
-              "exemplar": true,
-              "expr": "1-\n(sum(rate(http_requests_total{job=\"observatorium-api\",group=\"metricsv1\",handler=~\"query_range\",code=~\"5.+\",namespace=\"$namespace\",tenant=\"$tenant\"}[28d])) or vector(0))\n/\nsum(rate(http_requests_total{job=\"observatorium-api\",group=\"metricsv1\",handler=~\"query_range\",code!~\"4.+\",namespace=\"$namespace\",tenant=\"$tenant\"}[28d]))\n",
-              "instant": true,
-              "interval": "",
-              "legendFormat": "",
-              "range": false,
-              "refId": "A"
-            }
-          ],
-          "title": "Availability (28d)",
-          "type": "stat"
-        },
-        {
-          "datasource": "${datasource}",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "decimals": 2,
-              "mappings": [],
-              "max": 1,
-              "min": 0,
-              "thresholds": {
-                "mode": "percentage",
-                "steps": [
-                  {
-                    "color": "red",
-                    "value": null
-                  },
-                  {
-                    "color": "orange",
-                    "value": 33
-                  },
-                  {
-                    "color": "green",
-                    "value": 66
-                  }
-                ]
-              },
-              "unit": "percentunit"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 5,
-            "w": 5,
-            "x": 10,
-            "y": 21
-          },
-          "id": 11,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "showPercentChange": false,
-            "text": {},
-            "textMode": "auto",
-            "wideLayout": true
-          },
-          "pluginVersion": "10.4.1",
-          "targets": [
-            {
-              "datasource": "${datasource}",
-              "exemplar": true,
-              "expr": "clamp_min(\n( 1 -\n    (\n        (sum(rate(http_requests_total{job=\"observatorium-api\",group=\"metricsv1\",handler=~\"query_range\",code=~\"5.+\",namespace=\"$namespace\",tenant=\"$tenant\"}[28d])) or vector(0))\n        /\n        sum(rate(http_requests_total{job=\"observatorium-api\",group=\"metricsv1\",handler=~\"query_range\",code!~\"4.+\",namespace=\"$namespace\",tenant=\"$tenant\"}[28d]))\n    ) - 0.995\n)\n/\n(1 - 0.995), 0)\n",
-              "hide": false,
-              "interval": "",
-              "legendFormat": "",
-              "refId": "B"
-            }
-          ],
-          "title": "Error Budget (28d)",
-          "type": "stat"
-        },
-        {
-          "collapsed": false,
-          "datasource": "${datasource}",
-          "gridPos": {
-            "h": 1,
-            "w": 24,
-            "x": 0,
-            "y": 9
+            "y": 3
           },
           "id": 33,
           "panels": [],
@@ -448,7 +86,7 @@ data:
             "h": 5,
             "w": 5,
             "x": 0,
-            "y": 10
+            "y": 4
           },
           "id": 34,
           "options": {
@@ -505,7 +143,7 @@ data:
             "h": 5,
             "w": 5,
             "x": 5,
-            "y": 10
+            "y": 4
           },
           "id": 6,
           "options": {
@@ -578,7 +216,7 @@ data:
             "h": 5,
             "w": 5,
             "x": 10,
-            "y": 10
+            "y": 4
           },
           "id": 7,
           "options": {
@@ -619,9 +257,9 @@ data:
             "h": 5,
             "w": 5,
             "x": 0,
-            "y": 10
+            "y": 9
           },
-          "id": 34,
+          "id": 38,
           "options": {
             "code": {
               "language": "plaintext",
@@ -676,9 +314,9 @@ data:
             "h": 5,
             "w": 5,
             "x": 5,
-            "y": 10
+            "y": 9
           },
-          "id": 6,
+          "id": 39,
           "options": {
             "colorMode": "value",
             "graphMode": "area",
@@ -749,9 +387,9 @@ data:
             "h": 5,
             "w": 5,
             "x": 10,
-            "y": 10
+            "y": 9
           },
-          "id": 7,
+          "id": 40,
           "options": {
             "colorMode": "value",
             "graphMode": "area",
@@ -775,6 +413,368 @@ data:
               "datasource": "${datasource}",
               "exemplar": true,
               "expr": "clamp_min(\n    (\n        (\n            sum(rate(http_request_duration_seconds_bucket{job=\"observatorium-api\",code!~\"4..\",group=\"metricsv1\",handler=~\"query_range\",le=\"30\",namespace=\"$namespace\",tenant=\"$tenant\"}[28d]))\n            /\n            sum(rate(http_request_duration_seconds_count{job=\"observatorium-api\",code!~\"4..\",group=\"metricsv1\",handler=~\"query_range\",namespace=\"$namespace\",tenant=\"$tenant\"}[28d]))\n        ) - 0.90000000000000002\n    )\n    /\n    (1 - 0.90000000000000002), 0)\n",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "B"
+            }
+          ],
+          "title": "Error Budget (28d)",
+          "type": "stat"
+        },
+        {
+          "collapsed": false,
+          "datasource": "${datasource}",
+          "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 14
+          },
+          "id": 35,
+          "panels": [],
+          "targets": [
+            {
+              "datasource": "${datasource}",
+              "refId": "A"
+            }
+          ],
+          "title": "API > Metrics Read > Ad Hoc > Availability",
+          "type": "row"
+        },
+        {
+          "datasource": "${datasource}",
+          "gridPos": {
+            "h": 5,
+            "w": 5,
+            "x": 0,
+            "y": 15
+          },
+          "id": 36,
+          "options": {
+            "code": {
+              "language": "plaintext",
+              "showLineNumbers": false,
+              "showMiniMap": false
+            },
+            "content": "<center style=\"font-size: 25px;\">99.5% of valid /query requests return successfully</center>",
+            "mode": "markdown"
+          },
+          "pluginVersion": "10.4.1",
+          "targets": [
+            {
+              "datasource": "${datasource}",
+              "refId": "A"
+            }
+          ],
+          "title": "SLO",
+          "type": "text"
+        },
+        {
+          "datasource": "${datasource}",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 2,
+              "mappings": [],
+              "max": 1,
+              "min": 0,
+              "thresholds": {
+                "mode": "percentage",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "orange",
+                    "value": 95
+                  },
+                  {
+                    "color": "green",
+                    "value": 97.5
+                  }
+                ]
+              },
+              "unit": "percentunit"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 5,
+            "x": 5,
+            "y": 15
+          },
+          "id": 8,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "text": {},
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "10.4.1",
+          "targets": [
+            {
+              "datasource": "${datasource}",
+              "exemplar": true,
+              "expr": "1-\n(sum(rate(http_requests_total{job=\"observatorium-api\",group=\"metricsv1\",handler=\"query\",code=~\"5.+\",namespace=\"$namespace\",tenant=\"$tenant\"}[28d])) or vector(0))\n/\nsum(rate(http_requests_total{job=\"observatorium-api\",group=\"metricsv1\",handler=\"query\",code!~\"4.+\",namespace=\"$namespace\",tenant=\"$tenant\"}[28d]))\n",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "",
+              "range": false,
+              "refId": "A"
+            }
+          ],
+          "title": "Availability (28d)",
+          "type": "stat"
+        },
+        {
+          "datasource": "${datasource}",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 2,
+              "mappings": [],
+              "max": 1,
+              "min": 0,
+              "thresholds": {
+                "mode": "percentage",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "orange",
+                    "value": 33
+                  },
+                  {
+                    "color": "green",
+                    "value": 66
+                  }
+                ]
+              },
+              "unit": "percentunit"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 5,
+            "x": 10,
+            "y": 15
+          },
+          "id": 9,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "text": {},
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "10.4.1",
+          "targets": [
+            {
+              "datasource": "${datasource}",
+              "exemplar": true,
+              "expr": "clamp_min(\n( 1 -\n    (\n        (sum(rate(http_requests_total{job=\"observatorium-api\",group=\"metricsv1\",handler=\"query\",code=~\"5.+\",namespace=\"$namespace\",tenant=\"$tenant\"}[28d])) or vector(0))\n        /\n        sum(rate(http_requests_total{job=\"observatorium-api\",group=\"metricsv1\",handler=\"query\",code!~\"4.+\",namespace=\"$namespace\",tenant=\"$tenant\"}[28d]))\n    ) - 0.995\n)\n/\n(1 - 0.995), 0)\n",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "B"
+            }
+          ],
+          "title": "Error Budget (28d)",
+          "type": "stat"
+        },
+        {
+          "datasource": "${datasource}",
+          "gridPos": {
+            "h": 5,
+            "w": 5,
+            "x": 0,
+            "y": 20
+          },
+          "id": 37,
+          "options": {
+            "code": {
+              "language": "plaintext",
+              "showLineNumbers": false,
+              "showMiniMap": false
+            },
+            "content": "<center style=\"font-size: 25px;\">99.5% of valid /query_range requests return successfully</center>",
+            "mode": "markdown"
+          },
+          "pluginVersion": "10.4.1",
+          "targets": [
+            {
+              "datasource": "${datasource}",
+              "refId": "A"
+            }
+          ],
+          "title": "SLO",
+          "type": "text"
+        },
+        {
+          "datasource": "${datasource}",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 2,
+              "mappings": [],
+              "max": 1,
+              "min": 0,
+              "thresholds": {
+                "mode": "percentage",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "orange",
+                    "value": 95
+                  },
+                  {
+                    "color": "green",
+                    "value": 97.5
+                  }
+                ]
+              },
+              "unit": "percentunit"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 5,
+            "x": 5,
+            "y": 20
+          },
+          "id": 10,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "text": {},
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "10.4.1",
+          "targets": [
+            {
+              "datasource": "${datasource}",
+              "exemplar": true,
+              "expr": "1-\n(sum(rate(http_requests_total{job=\"observatorium-api\",group=\"metricsv1\",handler=~\"query_range\",code=~\"5.+\",namespace=\"$namespace\",tenant=\"$tenant\"}[28d])) or vector(0))\n/\nsum(rate(http_requests_total{job=\"observatorium-api\",group=\"metricsv1\",handler=~\"query_range\",code!~\"4.+\",namespace=\"$namespace\",tenant=\"$tenant\"}[28d]))\n",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "",
+              "range": false,
+              "refId": "A"
+            }
+          ],
+          "title": "Availability (28d)",
+          "type": "stat"
+        },
+        {
+          "datasource": "${datasource}",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 2,
+              "mappings": [],
+              "max": 1,
+              "min": 0,
+              "thresholds": {
+                "mode": "percentage",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "orange",
+                    "value": 33
+                  },
+                  {
+                    "color": "green",
+                    "value": 66
+                  }
+                ]
+              },
+              "unit": "percentunit"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 5,
+            "x": 10,
+            "y": 20
+          },
+          "id": 11,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "text": {},
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "10.4.1",
+          "targets": [
+            {
+              "datasource": "${datasource}",
+              "exemplar": true,
+              "expr": "clamp_min(\n( 1 -\n    (\n        (sum(rate(http_requests_total{job=\"observatorium-api\",group=\"metricsv1\",handler=~\"query_range\",code=~\"5.+\",namespace=\"$namespace\",tenant=\"$tenant\"}[28d])) or vector(0))\n        /\n        sum(rate(http_requests_total{job=\"observatorium-api\",group=\"metricsv1\",handler=~\"query_range\",code!~\"4.+\",namespace=\"$namespace\",tenant=\"$tenant\"}[28d]))\n    ) - 0.995\n)\n/\n(1 - 0.995), 0)\n",
               "hide": false,
               "interval": "",
               "legendFormat": "",
@@ -851,7 +851,7 @@ data:
             "options": [],
             "query": "label_values(tenant)",
             "refresh": 1,
-            "regex": "",
+            "regex": "/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/",
             "skipUrlSync": false,
             "sort": 1,
             "type": "query"
