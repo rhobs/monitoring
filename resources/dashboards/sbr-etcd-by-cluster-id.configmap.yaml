@@ -6,7 +6,7 @@ metadata:
   labels:
     grafana_dashboard: "true"
   annotations:
-    grafana-folder: /grafana-dashboard-definitions/0
+    grafana-folder: /grafana-dashboard-definitions/RHOBS
 data:
   PREProductionClusterbyID.json: |-
     {
