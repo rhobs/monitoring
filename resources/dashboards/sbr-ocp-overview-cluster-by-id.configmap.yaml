@@ -8,7 +8,7 @@ metadata:
   annotations:
     grafana-folder: /grafana-dashboard-definitions/RHOBS
 data:
-  PREProductionClusterbyID.json: |-
+  query.json: |-
     {
       "annotations": {
         "list": [
