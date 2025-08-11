@@ -6,7 +6,7 @@ metadata:
   labels:
     grafana_dashboard: "true"
   annotations:
-    grafana-folder: /grafana-dashboard-definitions/RHOBS
+    grafana-folder: /grafana-dashboard-definitions/RHOBS/SBR-shift
 data:
   query.json: |-
     {
@@ -2674,85 +2674,44 @@ data:
         "list": [
           {
             "current": {
-              "selected": false,
-              "text": "06c984d3-9677-4485-9703-3a77a168f03c",
-              "value": "06c984d3-9677-4485-9703-3a77a168f03c"
+              "text": "Add-here-cluster-ID",
+              "value": "Add-here-cluster-ID"
             },
-            "datasource": {
-              "type": "prometheus",
-              "uid": "$datasource"
-            },
-            "definition": "cluster_version",
-            "hide": 0,
-            "includeAll": false,
             "label": "Cluster ID",
-            "multi": false,
             "name": "cluster_id",
-            "options": [],
-            "query": {
-              "query": "cluster_version",
-              "refId": "recent-_id-Variable-Query"
-            },
-            "refresh": 2,
-            "regex": "/.*_id=\"([^\"]*).*/",
-            "skipUrlSync": false,
-            "sort": 0,
-            "tagValuesQuery": "",
-            "tagsQuery": "",
-            "type": "query",
-            "useTags": false
+            "options": [
+              {
+                "selected": true,
+                "text": "",
+                "value": ""
+              }
+            ],
+            "query": "",
+            "type": "textbox"
           },
           {
             "current": {
-              "selected": false,
-              "text": "telemeter",
-              "value": "telemeter"
+              "text": "telemeter-recent-production",
+              "value": "PD776AFABBE26000A"
             },
-            "hide": 0,
             "includeAll": false,
-            "multi": false,
             "name": "datasource",
             "options": [],
             "query": "prometheus",
             "refresh": 1,
             "regex": "",
-            "skipUrlSync": false,
             "type": "datasource"
           }
         ]
       },
       "time": {
-        "from": "now-6h",
+        "from": "now-12h",
         "to": "now"
       },
-      "timepicker": {
-        "refresh_intervals": [
-          "5s",
-          "10s",
-          "30s",
-          "1m",
-          "5m",
-          "15m",
-          "30m",
-          "1h",
-          "2h",
-          "1d"
-        ],
-        "time_options": [
-          "5m",
-          "15m",
-          "1h",
-          "6h",
-          "12h",
-          "24h",
-          "2d",
-          "7d",
-          "30d"
-        ]
-      },
-      "timezone": "",
+      "timepicker": {},
+      "timezone": "UTC",
       "title": "SBR - OCP overview cluster by id",
-      "uid": "kSomLV7Wk",
+      "uid": "HCpunkNUFAN",
       "version": 1,
       "weekStart": ""
     }
