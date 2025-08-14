@@ -179,7 +179,7 @@ data:
               },
               "editorMode": "builder",
               "exemplar": false,
-              "expr": "label_replace(label_replace(cluster_installer{_id=\"$cluster_id\"}, \"type\", \"Others\", \"type\", \"other\"), \"type\", \"IPI\", \"type\", \"openshift-install\")",
+              "expr": "label_replace(label_replace(cluster_installer{_id=\"$cluster_id\", type!=\"\"}, \"type\", \"Others\", \"type\", \"other\"), \"type\", \"IPI\", \"type\", \"openshift-install\") or label_replace(cluster_installer{_id=\"$cluster_id\"} unless on(_id) cluster_installer{_id=\"$cluster_id\", type!=\"\"}, \"type\", \"Unknown\", \"_id\", \".+\")",
               "format": "time_series",
               "instant": true,
               "intervalFactor": 1,
