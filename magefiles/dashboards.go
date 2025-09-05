@@ -27,7 +27,7 @@ func (d Dashboards) Alertmanager() error {
 	vm := getVM()
 	j, err := vm.EvaluateFile(getDashboardFile(filename))
 	if err != nil {
-		panic(err)
+		return fmt.Errorf("failed to evaluate jsonnset: %w", err)
 	}
 
 	err = writeDashboardFile(fileOut, j)
