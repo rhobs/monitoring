@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/ghodss/yaml"
 	"github.com/magefile/mage/mg"
@@ -55,6 +56,46 @@ func (d Dashboards) Query() error {
 	//	return fmt.Errorf("failed to write dashboard file: %w", err)
 	//}
 	// todo
+	return nil
+}
+
+// Loki generates the dashboards related to Loki Operator
+func (d Dashboards) Loki() error {
+	lokiDashboards := []struct {
+		input  string
+		output string
+	}{
+		{
+			input:  "chunks.jsonnet",
+			output: "loki-chunks.configmap.yaml",
+		},
+		{
+			input:  "reads.jsonnet",
+			output: "loki-reads.configmap.yaml",
+		},
+		{
+			input:  "retention.jsonnet",
+			output: "loki-retention.configmap.yaml",
+		},
+		{
+			input:  "writes.jsonnet",
+			output: "loki-writes.configmap.yaml",
+		},
+	}
+
+	for _, d := range lokiDashboards {
+		vm := getVM()
+		j, err := vm.EvaluateFile(getDashboardFile(filepath.Join("loki", d.input)))
+		if err != nil {
+			return fmt.Errorf("failed to evaluate jsonnet: %w", err)
+		}
+
+		err = writeDashboardFile(d.output, j)
+		if err != nil {
+			return fmt.Errorf("failed to write loki dashboard file: %w", err)
+		}
+	}
+
 	return nil
 }
 

@@ -18,3 +18,11 @@ func (Update) Alertmanager() error {
 	}
 	return nil
 }
+
+func (Update) All() error {
+	err := sh.Run("jb", "update", `--jsonnetpkg-home=vendor_jsonnet`)
+	if err != nil {
+		return fmt.Errorf("failed to update vendored mixins: %w", err)
+	}
+	return nil
+}
