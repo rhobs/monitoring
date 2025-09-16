@@ -4,6 +4,15 @@
     {
       "source": {
         "git": {
+          "remote": "https://github.com/grafana/loki.git",
+          "subdir": "production/loki-mixin"
+        }
+      },
+      "version": "v3.5.4"
+    },
+    {
+      "source": {
+        "git": {
           "remote": "https://github.com/prometheus/alertmanager.git",
           "subdir": "doc/alertmanager-mixin"
         }
