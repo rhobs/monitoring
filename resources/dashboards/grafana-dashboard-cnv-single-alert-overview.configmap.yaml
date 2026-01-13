@@ -1,0 +1,745 @@
+apiVersion: v1
+data:
+  cnv-single-alert-overview.json: |-
+    {
+      "annotations": {
+        "list": [
+          {
+            "builtIn": 1,
+            "datasource": {
+              "uid": "-- Grafana --"
+            },
+            "enable": true,
+            "hide": true,
+            "iconColor": "rgba(0, 211, 255, 1)",
+            "name": "Annotations & Alerts",
+            "type": "dashboard"
+          }
+        ]
+      },
+      "editable": true,
+      "fiscalYearStartMonth": 0,
+      "graphTooltip": 0,
+      "id": null,
+      "links": [],
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "description": "The max number of alerts over the selected time period.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 0,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 6,
+            "x": 0,
+            "y": 0
+          },
+          "id": 2,
+          "interval": "1h",
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "max_over_time(sum by (alertname, severity)(alerts{alertname=\"$alert_name\"} $hco_installed $source)[5m:1h])",
+              "hide": false,
+              "instant": false,
+              "interval": "1h",
+              "legendFormat": "{{alertname}} ({{severity}})",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Alerts fired",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "description": "Number of alerts fired by version sampled per hour, during the selected time period.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "decimals": 0,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 6,
+            "x": 6,
+            "y": 0
+          },
+          "id": 12,
+          "interval": "1h",
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "version"
+              }
+            ]
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "max_over_time(\n    sum by (version)(alerts{alertname=\"$alert_name\"}\n    + on(_id) group_left(version) (0*topk by (_id)(1,csv_succeeded{name=~\".*hyperconverged.*\"}))\n    $source\n    ) [5m:1h]\n)",
+              "format": "table",
+              "hide": false,
+              "instant": false,
+              "interval": "1h",
+              "legendFormat": "{{cnv_version}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Alerts fired by Version",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "includeByName": {},
+                "indexByName": {},
+                "renameByName": {}
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "description": "Number of impacted clusters by version sampled per hour, during the selected time period.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "decimals": 0,
+              "mappings": [],
+              "min": 0,
+              "noValue": "-",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 6,
+            "x": 12,
+            "y": 0
+          },
+          "id": 10,
+          "interval": "1h",
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "version"
+              }
+            ]
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "max_over_time(\n    count by (version) (\n        sum by (version, _id)(0*alerts{alertname=\"$alert_name\"}\n        + on(_id) group_left(version) (0*topk by (_id)(1,csv_succeeded{name=~\".*hyperconverged.*\"})) $source\n        )\n    )[5m:1h]\n)",
+              "format": "table",
+              "hide": false,
+              "instant": false,
+              "interval": "1h",
+              "legendFormat": "{{cnv_version}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Impacted Clusters by Version",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "includeByName": {},
+                "indexByName": {},
+                "renameByName": {}
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "description": "Number of impacted clusters percentage sampled per hour, during the selected time period.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "decimals": 2,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "#EAB839",
+                    "value": 0.5
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.8
+                  }
+                ]
+              },
+              "unit": "percentunit"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 6,
+            "x": 18,
+            "y": 0
+          },
+          "id": 6,
+          "interval": "1h",
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "version"
+              }
+            ]
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "max_over_time(\n    count by (version) (\n        sum by (version, _id)(0*alerts{alertname=\"$alert_name\"}\n        + on(_id) group_left(version) (0*topk by (_id)(1,csv_succeeded{name=~\".*hyperconverged.*\"})) $source)\n    ) [5m:1h]\n)\n/ on (version) group_left()\nmax_over_time(\n    count by (version) (\n        count by (version, _id)(0*topk by (_id)(1,csv_succeeded{name=~\".*hyperconverged.*\"}) $source)\n    ) [5m:1h]\n)",
+              "format": "table",
+              "hide": false,
+              "instant": false,
+              "interval": "1h",
+              "legendFormat": "{{cnv_version}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Impacted Clusters / Total Clusters - by Version",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "includeByName": {},
+                "indexByName": {},
+                "renameByName": {}
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "description": "latest value of the number of alerts fired per cluster.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "decimals": 0,
+              "mappings": [],
+              "min": 0,
+              "noValue": "0",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 0,
+            "y": 9
+          },
+          "id": 4,
+          "interval": "1h",
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "Value"
+              }
+            ]
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by (version, _id, email_domain, ebs_account)(alerts{alertname=\"$alert_name\"}\n    + on(_id) group_left(version) (0*topk by (_id)(1,csv_succeeded{name=~\".*hyperconverged.*\"}))\n    + on (_id) group_left(email_domain, ebs_account)( 0 * topk by (_id) (1, ocm_subscription{}))\n    $source\n)",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "interval": "1h",
+              "legendFormat": "{{_id}} ({{cnv_version}}, {{email_domain}}, {{ebs_account}})",
+              "range": false,
+              "refId": "A"
+            }
+          ],
+          "title": "Alerts Fired by Cluster",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "includeByName": {},
+                "indexByName": {},
+                "renameByName": {}
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "description": "latest value of the number of impacted clusters per account.\nFor accounts with multiple email domains, one random domain will appear.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "decimals": 0,
+              "mappings": [],
+              "min": 0,
+              "noValue": "0",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 12,
+            "y": 9
+          },
+          "id": 8,
+          "interval": "1h",
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "Value"
+              }
+            ]
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "count by (version, email_domain, ebs_account) (\n    sum by (version, _id, email_domain, ebs_account)(alerts{alertname=\"$alert_name\"} \n        + on(_id) group_left(version) (0*topk by (_id)(1,csv_succeeded{name=~\".*hyperconverged.*\"})) \n        + on (_id) group_left(ebs_account)( 0 * topk by (_id) (1, ocm_subscription{}))\n        # take only 1 email_domain per account to sum by accont only\n        + on (ebs_account) group_left(email_domain)( 1 * topk by (ebs_account) (1, ocm_subscription{})) \n        $source\n    )\n)",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "interval": "1h",
+              "legendFormat": "{{email_domain}}, {{ebs_account}} ({{cnv_version}})",
+              "range": false,
+              "refId": "A"
+            }
+          ],
+          "title": "Impacted Clusters by Account",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "includeByName": {},
+                "indexByName": {},
+                "renameByName": {}
+              }
+            }
+          ],
+          "type": "table"
+        }
+      ],
+      "preload": false,
+      "refresh": "",
+      "schemaVersion": 41,
+      "tags": [],
+      "templating": {
+        "list": [
+          {
+            "current": {
+              "text": "telemeter-recent-production",
+              "value": "PD776AFABBE26000A"
+            },
+            "includeAll": false,
+            "label": "Data Source",
+            "name": "datasource",
+            "options": [],
+            "query": "prometheus",
+            "refresh": 1,
+            "regex": "telemeter-recent-production",
+            "type": "datasource"
+          },
+          {
+            "current": {
+              "text": "+ on (_id) group_left(_blah) (0 * group by (_id, email_domain) (id_version_ebs_account_internal:cluster_subscribed{internal=\"\"}))",
+              "value": "+ on (_id) group_left(_blah) (0 * group by (_id, email_domain) (id_version_ebs_account_internal:cluster_subscribed{internal=\"\"}))"
+            },
+            "includeAll": false,
+            "label": "Source",
+            "name": "source",
+            "options": [
+              {
+                "selected": false,
+                "text": "All",
+                "value": "+ 0"
+              },
+              {
+                "selected": true,
+                "text": "External (!RH,!IBM)",
+                "value": "+ on (_id) group_left(_blah) (0 * group by (_id, email_domain) (id_version_ebs_account_internal:cluster_subscribed{internal=\"\"}))"
+              },
+              {
+                "selected": false,
+                "text": "Internal (RH,IBM)",
+                "value": "+ on (_id) group_left(_blah) (0 * group by (_id, email_domain) (id_version_ebs_account_internal:cluster_subscribed{internal!=\"\"}))"
+              }
+            ],
+            "query": "All : + 0, External (!RH\\,!IBM) : + on (_id) group_left(_blah) (0 * group by (_id\\, email_domain) (id_version_ebs_account_internal:cluster_subscribed{internal=\"\"})), Internal (RH\\,IBM) : + on (_id) group_left(_blah) (0 * group by (_id\\, email_domain) (id_version_ebs_account_internal:cluster_subscribed{internal!=\"\"}))",
+            "type": "custom"
+          },
+          {
+            "current": {
+              "text": "+ on (_id) group_left(_blah) ( 0 * group by (_id) (subscription_sync_total{installed=~\".*hyperconverged.*\"}))",
+              "value": "+ on (_id) group_left(_blah) ( 0 * group by (_id) (subscription_sync_total{installed=~\".*hyperconverged.*\"}))"
+            },
+            "hide": 2,
+            "includeAll": false,
+            "name": "hco_installed",
+            "options": [
+              {
+                "selected": true,
+                "text": "+ on (_id) group_left(_blah) ( 0 * group by (_id) (subscription_sync_total{installed=~\".*hyperconverged.*\"}))",
+                "value": "+ on (_id) group_left(_blah) ( 0 * group by (_id) (subscription_sync_total{installed=~\".*hyperconverged.*\"}))"
+              }
+            ],
+            "query": "+ on (_id) group_left(_blah) ( 0 * group by (_id) (subscription_sync_total{installed=~\".*hyperconverged.*\"}))",
+            "type": "custom"
+          },
+          {
+            "current": {
+              "text": "severity=~\".*\",",
+              "value": "severity=~\".*\","
+            },
+            "includeAll": false,
+            "label": "Alert Severity",
+            "name": "severity",
+            "options": [
+              {
+                "selected": true,
+                "text": "All",
+                "value": "severity=~\".*\","
+              },
+              {
+                "selected": false,
+                "text": "critical",
+                "value": "severity=~\"critical\","
+              },
+              {
+                "selected": false,
+                "text": "warning",
+                "value": "severity=~\"warning\","
+              },
+              {
+                "selected": false,
+                "text": "info",
+                "value": "severity=~\"info\","
+              }
+            ],
+            "query": "All : severity=~\".*\"\\,, critical : severity=~\"critical\"\\,, warning : severity=~\"warning\"\\,, info : severity=~\"info\"\\,",
+            "type": "custom"
+          },
+          {
+            "current": {
+              "text": "kubernetes_operator_part_of=~\"kubevirt\"",
+              "value": "kubernetes_operator_part_of=~\"kubevirt\""
+            },
+            "includeAll": false,
+            "label": "Operator Name",
+            "name": "kubernetes_operator_part_of",
+            "options": [
+              {
+                "selected": false,
+                "text": "All",
+                "value": "All=~\"\""
+              },
+              {
+                "selected": true,
+                "text": "kubevirt",
+                "value": "kubernetes_operator_part_of=~\"kubevirt\""
+              }
+            ],
+            "query": "All : All=~\"\", kubevirt : kubernetes_operator_part_of=~\"kubevirt\"",
+            "type": "custom"
+          },
+          {
+            "allValue": ".*",
+            "current": {
+              "text": "CDIDataImportCronOutdated",
+              "value": "CDIDataImportCronOutdated"
+            },
+            "datasource": "$datasource",
+            "definition": "query_result(count by (alertname) (alerts{$severity $kubernetes_operator_part_of, alertname!~\"Watchdog\"} $hco_installed $source))",
+            "includeAll": false,
+            "label": "Alerts Name",
+            "name": "alert_name",
+            "options": [],
+            "query": {
+              "query": "query_result(count by (alertname) (alerts{$severity $kubernetes_operator_part_of, alertname!~\"Watchdog\"} $hco_installed $source))",
+              "refId": "StandardVariableQuery"
+            },
+            "refresh": 1,
+            "regex": "/\"([^\"]+)\"/",
+            "sort": 1,
+            "type": "query"
+          },
+          {
+            "current": {
+              "text": "All",
+              "value": "$__all"
+            },
+            "datasource": "$datasource",
+            "definition": "query_result(count by (version) (cluster_version{type=\"current\"}))",
+            "description": "This variable was created in order to filter versions in queries where the version is taken from a different metric than cluster_version.",
+            "hide": 2,
+            "includeAll": true,
+            "name": "source_version_values",
+            "options": [],
+            "query": {
+              "query": "query_result(count by (version) (cluster_version{type=\"current\"}))",
+              "refId": "StandardVariableQuery"
+            },
+            "refresh": 2,
+            "regex": "/\"(\\d{1,2}\\.\\d{1,2})(?:\\.\\d{1,2})?\"/",
+            "type": "query"
+          }
+        ]
+      },
+      "time": {
+        "from": "now-15m",
+        "to": "now"
+      },
+      "timepicker": {},
+      "timezone": "",
+      "title": "CNV - Single Alert Overview",
+      "uid": "CNV-SingleAlertOverview",
+      "version": 7
+    }
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-cnv-cluster-single-alert-overview
+  labels:
+    grafana_dashboard: "true"
+  annotations:
+    grafana-folder: /grafana-dashboard-definitions/CNV
