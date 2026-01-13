@@ -1,0 +1,1347 @@
+apiVersion: v1
+data:
+  cnv-cluster-alerts-overview.json: |-
+    {
+      "annotations": {
+        "list": [
+          {
+            "builtIn": 1,
+            "datasource": {
+              "uid": "-- Grafana --"
+            },
+            "enable": true,
+            "hide": true,
+            "iconColor": "rgba(0, 211, 255, 1)",
+            "name": "Annotations & Alerts",
+            "type": "dashboard"
+          }
+        ]
+      },
+      "editable": true,
+      "fiscalYearStartMonth": 0,
+      "graphTooltip": 0,
+      "id": null,
+      "links": [],
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "description": "This panel shows the  number of impacted HCO clusters by the alert severity and the % out of the total HCO clusters. ",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "severity"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Alert Severity"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "none"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Value #A"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Number of Clusters"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "none"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Value #B"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Number of Clusters / Total Clusters with HCO installed"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "percentunit"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  },
+                  {
+                    "id": "custom.cellOptions",
+                    "value": {
+                      "type": "color-text"
+                    }
+                  },
+                  {
+                    "id": "custom.align"
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "rgba(50, 172, 45, 0.97)"
+                        },
+                        {
+                          "color": "rgba(237, 129, 40, 0.89)",
+                          "value": 0.5
+                        },
+                        {
+                          "color": "rgba(245, 54, 54, 0.9)",
+                          "value": 0.8
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 24,
+            "x": 0,
+            "y": 0
+          },
+          "id": 77,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "$datasource"
+              },
+              "editorMode": "code",
+              "expr": "count by (severity) (count by (_id, severity) (alerts{$severity $kubernetes_operator_part_of, _id=~\"$cluster_id\", alertname!~\"Watchdog\", alertname=~\"$alert_name\"} $hco_installed $source ))",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "expr": "count by (severity) (count by (_id, severity) (alerts{$severity $kubernetes_operator_part_of, _id=~\"$cluster_id\", alertname!~\"Watchdog\", alertname=~\"$alert_name\"} $hco_installed $source )) / on() group_left() count (count by (_id) (subscription_sync_total{installed=~\".*hyperconverged.*\"} $source ))",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "B"
+            }
+          ],
+          "title": "Alerts by Severity",
+          "transformations": [
+            {
+              "id": "merge",
+              "options": {
+                "reducers": []
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "includeByName": {},
+                "indexByName": {},
+                "renameByName": {}
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "alertname"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Alert Name"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  },
+                  {
+                    "id": "links",
+                    "value": [
+                      {
+                        "targetBlank": false,
+                        "title": "Link to `Single Alert Overview` dashboard ",
+                        "url": "/d/CNVSingleAlertOverview/cnv-single-alert-overview?orgId=1&var-alert_name=${__cell}"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "custom.align"
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "rgba(245, 54, 54, 0.9)"
+                        },
+                        {
+                          "color": "rgba(237, 129, 40, 0.89)"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "kubernetes_operator_part_of"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Operator Name"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "none"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "severity"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Severity"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "cnv_version"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "CNV Version"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Value #B"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Firing Alerts"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "locale"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Value #A"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Impacted Clusters / Total Clusters with CNV"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "percentunit"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  },
+                  {
+                    "id": "custom.cellOptions",
+                    "value": {
+                      "type": "color-text"
+                    }
+                  },
+                  {
+                    "id": "custom.align"
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "rgba(50, 172, 45, 0.97)"
+                        },
+                        {
+                          "color": "rgba(237, 129, 40, 0.89)",
+                          "value": 0.5
+                        },
+                        {
+                          "color": "rgba(245, 54, 54, 0.9)",
+                          "value": 0.8
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Value #C"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Impacted Clusters"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "kubernetes_operator_component"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Sub Operator Name"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Value #D"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Total Clusters with HCO per Version"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Alert Name"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 327
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 24,
+            "x": 0,
+            "y": 5
+          },
+          "id": 81,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "Impacted Clusters / Total Clusters with CNV"
+              }
+            ]
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "expr": "sum by (alertname, kubernetes_operator_part_of, kubernetes_operator_component, severity, cnv_version)(\n    alerts{$severity $kubernetes_operator_part_of, _id=~\"$cluster_id\", alertname!~\"Watchdog\", alertname=~\"$alert_name\"} \n         + on(_id) group_left(cnv_version) (0*topk by (_id)(1,label_replace(csv_succeeded{name=~\".*hyperconverged.*\"},\"cnv_version\", \"$1\", \"version\", \"([0-9]+\\\\.[0-9]+)\\\\..*\")))\n    $hco_installed $source \n)",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "",
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "expr": "count by (alertname, kubernetes_operator_part_of, kubernetes_operator_component, severity, cnv_version)(\n    sum by (alertname, kubernetes_operator_part_of, kubernetes_operator_component, severity, cnv_version,_id)(\n    0*alerts{$severity $kubernetes_operator_part_of, _id=~\"$cluster_id\", alertname!~\"Watchdog\", alertname=~\"$alert_name\"} \n    + on(_id) group_left(cnv_version) (0*topk by (_id)(1,label_replace(csv_succeeded{name=~\".*hyperconverged.*\"},\"cnv_version\", \"$1\", \"version\", \"([0-9]+\\\\.[0-9]+)\\\\..*\")))\n    $hco_installed $source \n))",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "",
+              "refId": "C"
+            },
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "expr": "(count by (cnv_version)( count by (_id,cnv_version) ((0*topk by (_id)(1,label_replace(csv_succeeded{name=~\".*hyperconverged.*\"},\"cnv_version\", \"$1\", \"version\", \"([0-9]+\\\\.[0-9]+)\\\\..*\")))) $source )) + on(cnv_version) group_left()(0* count by(cnv_version)(0*alerts{$severity $kubernetes_operator_part_of, _id=~\"$cluster_id\", alertname!~\"Watchdog\", alertname=~\"$alert_name\"}\n    + on(_id) group_left(cnv_version) (0*topk by (_id)(1,label_replace(csv_succeeded{name=~\".*hyperconverged.*\"},\"cnv_version\", \"$1\", \"version\", \"([0-9]+\\\\.[0-9]+)\\\\..*\")))\n    $hco_installed $source ))",
+              "format": "table",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "D"
+            },
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "expr": "(count by (alertname, kubernetes_operator_part_of, kubernetes_operator_component, severity, cnv_version)(\n    sum by (alertname, kubernetes_operator_part_of, kubernetes_operator_component, severity, cnv_version,_id)(\n    0*alerts{$severity $kubernetes_operator_part_of, _id=~\"$cluster_id\", alertname!~\"Watchdog\", alertname=~\"$alert_name\"} \n    + on(_id) group_left(cnv_version) (0*topk by (_id)(1,label_replace(csv_succeeded{name=~\".*hyperconverged.*\"},\"cnv_version\", \"$1\", \"version\", \"([0-9]+\\\\.[0-9]+)\\\\..*\")))\n    $hco_installed $source \n)))\n/\non(cnv_version) group_left() (count by (cnv_version)( count by (_id,cnv_version) ((0*topk by (_id)(1,label_replace(csv_succeeded{name=~\".*hyperconverged.*\"},\"cnv_version\", \"$1\", \"version\", \"([0-9]+\\\\.[0-9]+)\\\\..*\")))) $source )) + on(cnv_version) group_left()(0* count by(cnv_version)(0*alerts{$severity $kubernetes_operator_part_of, _id=~\"$cluster_id\", alertname!~\"Watchdog\", alertname=~\"$alert_name\"}\n    + on(_id) group_left(cnv_version) (0*topk by (_id)(1,label_replace(csv_succeeded{name=~\".*hyperconverged.*\"},\"cnv_version\", \"$1\", \"version\", \"([0-9]+\\\\.[0-9]+)\\\\..*\")))\n    $hco_installed $source ))",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "Alerts by Version",
+          "transformations": [
+            {
+              "id": "merge",
+              "options": {
+                "reducers": []
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "includeByName": {},
+                "indexByName": {},
+                "renameByName": {}
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "alertname"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Alert Name"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  },
+                  {
+                    "id": "links",
+                    "value": [
+                      {
+                        "targetBlank": false,
+                        "title": "Link to `Single Alert Overview` dashboard ",
+                        "url": "/d/CNVSingleAlertOverview/cnv-single-alert-overview?orgId=1&var-alert_name=${__cell}"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "custom.align"
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "rgba(245, 54, 54, 0.9)"
+                        },
+                        {
+                          "color": "rgba(237, 129, 40, 0.89)"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "kubernetes_operator_part_of"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Operator Name"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "none"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Value #A"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Impacted Clusters"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.align"
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "rgba(50, 172, 45, 0.97)"
+                        },
+                        {
+                          "color": "rgba(237, 129, 40, 0.89)"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "severity"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Severity"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Value #C"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Firing Alerts"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "locale"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "kubernetes_operator_component"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Sub Operator Name"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 24,
+            "x": 0,
+            "y": 12
+          },
+          "id": 76,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "expr": "count by (alertname, kubernetes_operator_part_of, kubernetes_operator_component, severity) \n(\n  count by (alertname, _id, kubernetes_operator_part_of, kubernetes_operator_component, severity) (alerts{$severity $kubernetes_operator_part_of, _id=~\"$cluster_id\", alertname!~\"Watchdog\", alertname=~\"$alert_name\"} $hco_installed $source )\n) ",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "expr": "sum by (alertname, kubernetes_operator_part_of, kubernetes_operator_component, severity) (alerts{$severity $kubernetes_operator_part_of, _id=~\"$cluster_id\", alertname!~\"Watchdog\", alertname=~\"$alert_name\"} $hco_installed $source )",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "",
+              "refId": "C"
+            }
+          ],
+          "title": "Alerts by Name",
+          "transformations": [
+            {
+              "id": "merge",
+              "options": {
+                "reducers": []
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "includeByName": {},
+                "indexByName": {},
+                "renameByName": {}
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Time"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "_id"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Cluster ID"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "ebs_account"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Account"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "email_domain"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Email Domain"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "none"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Value"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Number of Alerts"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "locale"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "version"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "CNV Version"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  },
+                  {
+                    "id": "custom.align"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 24,
+            "x": 0,
+            "y": 19
+          },
+          "id": 80,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "datasource": {
+                "uid": "$datasource"
+              },
+              "expr": "count by (_id) (alerts{$severity $kubernetes_operator_part_of, _id=~\"$cluster_id\", alertname!~\"Watchdog\", alertname=~\"$alert_name\"} $hco_installed $source ) + on (_id) group_left(email_domain, ebs_account) (0 * topk by (_id) (1, ocm_subscription{} $hco_installed $source )) + on(_id) group_left(version) (0*topk by (_id)(1,csv_succeeded{name=~\".*hyperconverged.*\"}))",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "Clusters Impacted By the Alerts",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "includeByName": {},
+                "indexByName": {},
+                "renameByName": {}
+              }
+            }
+          ],
+          "type": "table"
+        }
+      ],
+      "refresh": "",
+      "schemaVersion": 41,
+      "tags": [],
+      "templating": {
+        "list": [
+          {
+            "allowCustomValue": false,
+            "current": {
+              "text": "telemeter-recent-production",
+              "value": "PD776AFABBE26000A"
+            },
+            "includeAll": false,
+            "label": "Data Source",
+            "name": "datasource",
+            "options": [],
+            "query": "prometheus",
+            "refresh": 1,
+            "regex": "telemeter-recent-production",
+            "type": "datasource"
+          },
+          {
+            "current": {
+              "text": "+ on (_id) group_left(_blah) (0 * group by (_id, email_domain) (id_version_ebs_account_internal:cluster_subscribed{internal=\"\"}))",
+              "value": "+ on (_id) group_left(_blah) (0 * group by (_id, email_domain) (id_version_ebs_account_internal:cluster_subscribed{internal=\"\"}))"
+            },
+            "includeAll": false,
+            "name": "source",
+            "options": [
+              {
+                "selected": false,
+                "text": "All",
+                "value": "+ 0"
+              },
+              {
+                "selected": true,
+                "text": "External (!RH,!IBM)",
+                "value": "+ on (_id) group_left(_blah) (0 * group by (_id, email_domain) (id_version_ebs_account_internal:cluster_subscribed{internal=\"\"}))"
+              },
+              {
+                "selected": false,
+                "text": "Internal (RH,IBM)",
+                "value": "+ on (_id) group_left(_blah) (0 * group by (_id, email_domain) (id_version_ebs_account_internal:cluster_subscribed{internal!=\"\"}))"
+              }
+            ],
+            "query": "All : + 0, External (!RH\\,!IBM) : + on (_id) group_left(_blah) (0 * group by (_id\\, email_domain) (id_version_ebs_account_internal:cluster_subscribed{internal=\"\"})), Internal (RH\\,IBM) : + on (_id) group_left(_blah) (0 * group by (_id\\, email_domain) (id_version_ebs_account_internal:cluster_subscribed{internal!=\"\"}))",
+            "type": "custom"
+          },
+          {
+            "current": {
+              "text": "+ on (_id) group_left(_blah) ( 0 * group by (_id) (subscription_sync_total{installed=~\".*hyperconverged.*\"}))",
+              "value": "+ on (_id) group_left(_blah) ( 0 * group by (_id) (subscription_sync_total{installed=~\".*hyperconverged.*\"}))"
+            },
+            "hide": 2,
+            "includeAll": false,
+            "name": "hco_installed",
+            "options": [
+              {
+                "selected": true,
+                "text": "+ on (_id) group_left(_blah) ( 0 * group by (_id) (subscription_sync_total{installed=~\".*hyperconverged.*\"}))",
+                "value": "+ on (_id) group_left(_blah) ( 0 * group by (_id) (subscription_sync_total{installed=~\".*hyperconverged.*\"}))"
+              }
+            ],
+            "query": "+ on (_id) group_left(_blah) ( 0 * group by (_id) (subscription_sync_total{installed=~\".*hyperconverged.*\"}))",
+            "type": "custom"
+          },
+          {
+            "allValue": ".*",
+            "current": {},
+            "datasource": "$datasource",
+            "definition": "label_values(ocm_subscription, _id)",
+            "description": "",
+            "includeAll": true,
+            "label": "Cluster ID",
+            "name": "cluster_id",
+            "options": [],
+            "query": {
+              "qryType": 5,
+              "query": "label_values(ocm_subscription, _id)",
+              "refId": "PrometheusVariableQueryEditor-VariableQuery"
+            },
+            "refresh": 1,
+            "regex": "",
+            "type": "query"
+          },
+          {
+            "current": {
+              "text": "severity=~\".*\",",
+              "value": "severity=~\".*\","
+            },
+            "description": "",
+            "includeAll": false,
+            "label": "Alert Severity",
+            "name": "severity",
+            "options": [
+              {
+                "selected": true,
+                "text": "All",
+                "value": "severity=~\".*\","
+              },
+              {
+                "selected": false,
+                "text": "critical",
+                "value": "severity=~\"critical\","
+              },
+              {
+                "selected": false,
+                "text": "warning",
+                "value": "severity=~\"warning\","
+              },
+              {
+                "selected": false,
+                "text": "info",
+                "value": "severity=~\"info\","
+              }
+            ],
+            "query": "All : severity=~\".*\"\\,, critical : severity=~\"critical\"\\,, warning : severity=~\"warning\"\\,, info : severity=~\"info\"\\,",
+            "type": "custom"
+          },
+          {
+            "current": {
+              "text": "kubernetes_operator_part_of=~\"kubevirt\"",
+              "value": "kubernetes_operator_part_of=~\"kubevirt\""
+            },
+            "includeAll": false,
+            "label": "Operator Name",
+            "name": "kubernetes_operator_part_of",
+            "options": [
+              {
+                "selected": false,
+                "text": "All",
+                "value": "All=~\"\""
+              },
+              {
+                "selected": true,
+                "text": "kubevirt",
+                "value": "kubernetes_operator_part_of=~\"kubevirt\""
+              }
+            ],
+            "query": "All : All=~\"\", kubevirt : kubernetes_operator_part_of=~\"kubevirt\"",
+            "type": "custom"
+          },
+          {
+            "allValue": ".*",
+            "current": {},
+            "datasource": "$datasource",
+            "definition": "query_result(count by (alertname) (alerts{$severity $kubernetes_operator_part_of, _id=~\"$cluster_id\", alertname!~\"Watchdog\"} $hco_installed $source ))",
+            "includeAll": true,
+            "label": "Alerts Name",
+            "name": "alert_name",
+            "options": [],
+            "query": "query_result(count by (alertname) (alerts{$severity $kubernetes_operator_part_of, _id=~\"$cluster_id\", alertname!~\"Watchdog\"} $hco_installed $source ))",
+            "refresh": 1,
+            "regex": "/\"([^\"]+)\"/",
+            "type": "query"
+          }
+        ]
+      },
+      "time": {
+        "from": "now-6h",
+        "to": "now"
+      },
+      "timepicker": {
+        "hidden": true
+      },
+      "timezone": "",
+      "title": "CNV - Alerts Overview",
+      "uid": "CNV-AlertsOverview",
+      "version": 10,
+      "weekStart": ""
+    }
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-cnv-cluster-alerts-overview
+  labels:
+    grafana_dashboard: "true"
+  annotations:
+    grafana-folder: /grafana-dashboard-definitions/CNV
