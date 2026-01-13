@@ -28,7 +28,7 @@ data:
             "type": "prometheus",
             "uid": "$datasource"
           },
-          "description": "The max number of alerts over the selected time period.",
+          "description": "The max number of alerts over the selected time period",
           "fieldConfig": {
             "defaults": {
               "color": {
