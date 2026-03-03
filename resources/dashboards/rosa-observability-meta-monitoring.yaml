@@ -6710,6 +6710,11 @@ data:
             "options": [
               {
                 "selected": false,
+                "text": "sa-east-1",
+                "value": "sa-east-1"
+              },
+              {
+                "selected": false,
                 "text": "us-east-1",
                 "value": "us-east-1"
               },
@@ -6724,7 +6729,7 @@ data:
                 "value": "us-west-2"
               }
             ],
-            "query": "us-east-1,us-west-1,us-west-2",
+            "query": "us-east-1,us-west-1,us-west-2,sa-east-1",
             "type": "custom"
           },
           {

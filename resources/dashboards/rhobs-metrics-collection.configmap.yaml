@@ -1311,9 +1311,14 @@ data:
                 "selected": true,
                 "text": "us-west-2",
                 "value": "us-west-2"
+              },
+              {
+                "selected": false,
+                "text": "sa-east-1",
+                "value": "sa-east-1"
               }
             ],
-            "query": "us-east-1,us-west-1,us-west-2",
+            "query": "us-east-1,us-west-1,us-west-2,sa-east-1",
             "type": "custom"
           },
           {
