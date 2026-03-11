@@ -1249,19 +1249,6 @@ data:
       "templating": {
         "list": [
           {
-            "current": {
-              "text": "rhobs-us-west-2-integration-hcp-metrics",
-              "value": "P556EAD5110674EA9"
-            },
-            "hide": 2,
-            "name": "datasource",
-            "options": [],
-            "query": "prometheus",
-            "refresh": 1,
-            "regex": "/^rhobs-${region}-${env}-hcp-metrics/",
-            "type": "datasource"
-          },
-          {
             "allowCustomValue": true,
             "current": {
               "text": "integration",
@@ -1380,6 +1367,19 @@ data:
             "regex": "",
             "sort": 1,
             "type": "query"
+          },
+          {
+            "allowCustomValue": false,
+            "current": {
+              "text": "rhobs-us-west-2-integration-hcp-metrics",
+              "value": "P556EAD5110674EA9"
+            },
+            "name": "datasource",
+            "options": [],
+            "query": "prometheus",
+            "refresh": 1,
+            "regex": "/^rhobs-${region}-\\d-${env}-hcp-metrics/",
+            "type": "datasource"
           }
         ]
       },
