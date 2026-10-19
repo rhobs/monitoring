@@ -38,6 +38,26 @@ func (d Dashboards) Alertmanager() error {
 	return nil
 }
 
+// Envoy Generates the general purpose Envoy dashboard
+func (d Dashboards) Envoy() error {
+	const (
+		filename = "envoy.jsonnet"
+		fileOut  = "envoy.configmap.yaml"
+	)
+
+	vm := getVM()
+	j, err := vm.EvaluateFile(getDashboardFile(filename))
+	if err != nil {
+		return fmt.Errorf("failed to evaluate jsonnet: %w", err)
+	}
+
+	err = writeDashboardFile(fileOut, j)
+	if err != nil {
+		return fmt.Errorf("failed to write dashboard file: %w", err)
+	}
+	return nil
+}
+
 // Query Generates the Thanos Query dashboard
 func (d Dashboards) Query() error {
 	const (
